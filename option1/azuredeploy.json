@@ -117,7 +117,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/edsbranch//option1/nestedtemplates/vnet.json",
+          "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/nestedtemplates/vnet.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -295,7 +295,7 @@
             "settings": {
               "wmfVersion": "latest",
               "configuration": {
-                "url": "https://raw.githubusercontent.com/ehhwerd/dcib-vpn-p2s/master/AzureResourceGroup4/DSC/CreateADPDC.zip",
+                "url": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/CreateADPDC.zip",
                 "script": "CreateADPDC.ps1",
                 "function": "CreateADPDC"
               },
@@ -334,7 +334,7 @@
             "autoUpgradeMinorVersion": true,
             "settings": {
               "fileUris": [
-                "https://raw.githubusercontent.com/ehhwerd/dcib-vpn-p2s/master/AzureResourceGroup4/GetADConnect.ps1"
+                "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/GetADConnect.ps1"
               ],
               "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file GetADConnect.ps1 -sourceUrl ', variables('AADConnectSource'), ' -filePath ', variables('AADConnectTargetPath'))]"
             }
@@ -354,7 +354,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/ehhwerd/dcib-vpn-p2s/master/AzureResourceGroup4/nestedtemplates/vnet-with-dns-server.json",
+          "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/nestedtemplates/vnet-with-dns-server.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -371,13 +371,12 @@
             "value": "[variables('adSubnetAddressPrefix')]"
           },
           "DNSServerAddress": {
-            "value": 
-              "[variables('adNicIPAddress')]"
-            
+            "value": "[variables('adNicIPAddress')]"
+
           }
         }
       }
-    },
+    }
     //{
     //  "apiVersion": "2015-01-01",
 
@@ -389,7 +388,7 @@
     //  "properties": {
     //    "mode": "Incremental",
     //    "templateLink": {
-    //      "uri": "https://raw.githubusercontent.com/ehhwerd/dcib-vpn-p2s/master/AzureResourceGroup4/vpn-s2s-deploy.json",
+    //      "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/nestedtemplates/vpn-s2s-deploy.json",
     //      "contentVersion": "1.0.0.0"
     //    },
     //    "parameters": {
