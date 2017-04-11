@@ -68,8 +68,10 @@
     
     "VM2Name": {
       "type": "string",
-      "description": "The name of the second VM being deployed that will be joined to the domain"
-    },
+      "metadata": {
+        "description": "The name of the second VM being deployed that will be joined to the domain"
+        }
+      },
     "vm2size": {
       "type": "string",
       "metadata": {
@@ -99,27 +101,31 @@
     },
     "vm2LocalAdminUsername": {
       "type": "string",
-      "description": "the local admin username of VM2"
-    },
+      "metadata": {
+        "description": "the local admin username of VM2"
+        }
+      },
     "vm2LocalAdminPassword": {
       "type": "securestring",
-      "description": "password of local admin of VM2"
-    },
-    "vm2WindowsServer": {
-      "type": "string",
       "metadata": {
-        "description": "The version of Windows Server to use"
+        "description": "password of local admin of VM2"
+        }
       },
-      "defaultValue": "2016-Datacenter",
-      "allowedValues": [
-        "2012-Datacenter",
-        "2012-R2-Datacenter",
-        "2016-Datacenter"
-      ]
-    }
+      "vm2WindowsServer": {
+        "type": "string",
+        "metadata": {
+          "description": "The version of Windows Server to use"
+        },
+        "defaultValue": "2016-Datacenter",
+        "allowedValues": [
+          "2012-Datacenter",
+          "2012-R2-Datacenter",
+          "2016-Datacenter"
+        ]
+      }
 
 
-  },
+    },
   "variables": {
     "virtualNetworkName": "adVNET",
     "virtualNetworkAddressRange": "10.0.0.0/16",
@@ -440,9 +446,9 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('NewVMDomainJoinTemplateFolder'), '/', variables('NewVMDomainJoinTemplateFileName'))]",
+          "uri": "[concat(variables('_artifactsLocation'), '/', variables('NewVMDomainJoinTemplateFolder'), '/', variables('NewVMDomainJoinTemplateFileName'))]",
           "contentVersion": "1.0.0.0"
-        }
+        },
         "parameters": {
           "existingVNETName": {
             "value": "[variables('virtualNetworkName')]"
@@ -478,27 +484,29 @@
 
 
         }
-        //{
-        //  "apiVersion": "2015-01-01",
+      }
+    }
+      //{
+      //  "apiVersion": "2015-01-01",
 
-        //  "name": "S2S-VPN-Deployment",
-        //  "type": "Microsoft.Resources/deployments",
-        //  "dependsOn": [
-        //    "[resourceId('Microsoft.Resources/deployments', 'UpdateVNetDNS')]"
-        //  ],
-        //  "properties": {
-        //    "mode": "Incremental",
-        //    "templateLink": {
-        //      "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/nestedtemplates/vpn-s2s-deploy.json",
-        //      "contentVersion": "1.0.0.0"
-        //    },
-        //    "parameters": {
-        //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-        //      "virtualNetworkAddressRange": { "value": "[variables('virtualNetworkAddressRange')]" },
-        //      "adSubnetName": { "value": "[variables('adSubnetName')]" },
-        //      "adSubnetAddressPrefix": { "value": "[variables('adSubnetAddressPrefix')]" }
-        //    }
-        //  }
-        //}
+      //  "name": "S2S-VPN-Deployment",
+      //  "type": "Microsoft.Resources/deployments",
+      //  "dependsOn": [
+      //    "[resourceId('Microsoft.Resources/deployments', 'UpdateVNetDNS')]"
+      //  ],
+      //  "properties": {
+      //    "mode": "Incremental",
+      //    "templateLink": {
+      //      "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/nestedtemplates/vpn-s2s-deploy.json",
+      //      "contentVersion": "1.0.0.0"
+      //    },
+      //    "parameters": {
+      //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+      //      "virtualNetworkAddressRange": { "value": "[variables('virtualNetworkAddressRange')]" },
+      //      "adSubnetName": { "value": "[variables('adSubnetName')]" },
+      //      "adSubnetAddressPrefix": { "value": "[variables('adSubnetAddressPrefix')]" }
+      //    }
+      //  }
+      //}
   ]
 }
