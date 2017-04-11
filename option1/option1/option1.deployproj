@@ -31,7 +31,13 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
-    <None Include="main.json" />
+    <None Include="DSC\CreateADPDC.zip" />
+    <None Include="DSC\GetADConnect.ps1" />
+    <None Include="nestedtemplates\installadconnect.json" />
+    <None Include="nestedtemplates\new-vm-join-domain.json" />
+    <None Include="nestedtemplates\vnet-with-dns-server.json" />
+    <None Include="nestedtemplates\vnet.json" />
+    <None Include="nestedtemplates\vpn-s2s-deploy.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
