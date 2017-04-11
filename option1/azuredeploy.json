@@ -5,13 +5,13 @@
     "adminUsername": {
       "type": "string",
       "metadata": {
-        "description": "The name of the administrator account of the new VM and domain"
+        "description": "The admin username of the domain controller (which also ends up being your domain admin)"
       }
     },
     "adminPassword": {
       "type": "securestring",
       "metadata": {
-        "description": "The password for the administrator account of the new VM and domain"
+        "description": "The password of the domain admin"
       }
     },
     "domainName": {
@@ -64,6 +64,58 @@
         "Standard_D4_v2",
         "Standard_D5_v2"
       ]
+    },
+    
+    "VM2Name": {
+      "type": "string",
+      "description": "The name of the second VM being deployed that will be joined to the domain"
+    },
+    "vm2size": {
+      "type": "string",
+      "metadata": {
+        "description": "The size of VM to use"
+      },
+      "defaultValue": "Standard_A2_v2",
+      "allowedValues": [
+        "Standard_A0",
+        "Standard_A1_v2",
+        "Standard_A2_v2",
+        "Standard_A2m_v2",
+        "Standard_A4_v2",
+        "Standard_A4m_v2",
+        "Standard_A8_v2",
+        "Standard_A8m_v2",
+        "Standard_D1_v2",
+        "Standard_D11_v2",
+        "Standard_D12_v2",
+        "Standard_D13_v2",
+        "Standard_D14_v2",
+        "Standard_D15_v2",
+        "Standard_D2_v2",
+        "Standard_D3_v2",
+        "Standard_D4_v2",
+        "Standard_D5_v2"
+      ]
+    },
+    "vm2LocalAdminUsername": {
+      "type": "string",
+      "description": "the local admin username of VM2"
+    },
+    "vm2LocalAdminPassword": {
+      "type": "securestring",
+      "description": "password of local admin of VM2"
+    },
+    "vm2WindowsServer": {
+      "type": "string",
+      "metadata": {
+        "description": "The version of Windows Server to use"
+      },
+      "defaultValue": "2016-Datacenter",
+      "allowedValues": [
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "2016-Datacenter"
+      ]
     }
 
 
@@ -81,10 +133,13 @@
     "adSubnetName": "adSubnet",
     "adSubnetAddressPrefix": "10.0.0.0/24",
     "publicIPAddressName": "adPublicIP",
-    "adAvailabilitySetName": "adAvailabiltySet",
+    "adAvailabilitySetName": "adAvailabilitySet",
     "adLBName": "adLoadBalancer",
     "AADConnectSource": "https://download.microsoft.com/download/B/0/0/B00291D0-5A83-4DE7-86F5-980BC00DE05A/AzureADConnect.msi",
-    "AADConnectTargetPath" : "C:\\AzureADConnect.msi"
+    "AADConnectTargetPath": "C:\\AzureADConnect.msi",
+    "NewVMDomainJoinTemplateFolder": "nestedtemplates",
+    "NewVMDomainJoinTemplateFileName": "new-vm-join-domain.json",
+    "_artifactsLocation": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1"
   },
   "resources": [
     {
@@ -376,28 +431,74 @@
           }
         }
       }
-    }
-    //{
-    //  "apiVersion": "2015-01-01",
+    },
+    {
+      "name": "NewVMDomainJoin",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [ "Microsoft.Resources/deployments/UpdateVNetDNS" ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('NewVMDomainJoinTemplateFolder'), '/', variables('NewVMDomainJoinTemplateFileName'))]",
+          "contentVersion": "1.0.0.0"
+        }
+        "parameters": {
+          "existingVNETName": {
+            "value": "[variables('virtualNetworkName')]"
+          },
 
-    //  "name": "S2S-VPN-Deployment",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "dependsOn": [
-    //    "[resourceId('Microsoft.Resources/deployments', 'UpdateVNetDNS')]"
-    //  ],
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": {
-    //      "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/nestedtemplates/vpn-s2s-deploy.json",
-    //      "contentVersion": "1.0.0.0"
-    //    },
-    //    "parameters": {
-    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-    //      "virtualNetworkAddressRange": { "value": "[variables('virtualNetworkAddressRange')]" },
-    //      "adSubnetName": { "value": "[variables('adSubnetName')]" },
-    //      "adSubnetAddressPrefix": { "value": "[variables('adSubnetAddressPrefix')]" }
-    //    }
-    //  }
-    //}
+          "existingSubnetName": {
+            "value": "[variables('adSubnetName')]"
+          },
+          "dnsLabelPrefix": {
+            "value": "[parameters('VM2Name')]"
+          },
+          "vmSize": {
+            "value": "[parameters('vm2size')]"
+          },
+          "domainToJoin": {
+            "value": "[parameters('domainName')]"
+          },
+          "domainUserName": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "domainPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "vmAdminUsername": {
+            "value": "[parameters('vm2LocalAdminUsername')]"
+          },
+          "vmAdminPassword": {
+            "value": "[parameters('vm2LocalAdminPassword')]"
+          },
+          "windowsserver": {
+            "value": "[parameters('vm2WindowsServer')]"
+          }
+
+
+        }
+        //{
+        //  "apiVersion": "2015-01-01",
+
+        //  "name": "S2S-VPN-Deployment",
+        //  "type": "Microsoft.Resources/deployments",
+        //  "dependsOn": [
+        //    "[resourceId('Microsoft.Resources/deployments', 'UpdateVNetDNS')]"
+        //  ],
+        //  "properties": {
+        //    "mode": "Incremental",
+        //    "templateLink": {
+        //      "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/nestedtemplates/vpn-s2s-deploy.json",
+        //      "contentVersion": "1.0.0.0"
+        //    },
+        //    "parameters": {
+        //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+        //      "virtualNetworkAddressRange": { "value": "[variables('virtualNetworkAddressRange')]" },
+        //      "adSubnetName": { "value": "[variables('adSubnetName')]" },
+        //      "adSubnetAddressPrefix": { "value": "[variables('adSubnetAddressPrefix')]" }
+        //    }
+        //  }
+        //}
   ]
 }
