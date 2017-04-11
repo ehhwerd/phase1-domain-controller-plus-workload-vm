@@ -5,7 +5,7 @@
     "envPrefixName": {
       "type": "string",
       "metadata": {
-        "description": "Prefix for the environment (2-5 characters)"
+        "description": "Prefix for the environment (2-5 characters)asd"
       },
       "defaultValue": "cust1",
       "minLength": 2,
