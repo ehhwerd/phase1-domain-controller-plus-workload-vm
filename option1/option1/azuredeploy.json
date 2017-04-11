@@ -117,7 +117,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/ehhwerd/dcib/master/AzureResourceGroup4/nestedtemplates/vnet.json",
+          "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/edsbranch/option1/option1/nestedtemplates/vnet.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
