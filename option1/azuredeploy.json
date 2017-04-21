@@ -453,7 +453,7 @@
             "value": "[variables('adSubnetAddressPrefix')]"
           },
           "DNSServerAddress": {
-            "value": ["10.0.0.4","10.0.0.5"]
+            "value": [ "[variables('adNicIPAddress')]" ]
 
           }
         }
