@@ -48,9 +48,9 @@
           ]
         },
         "dhcpOptions": {
-          "dnsServers": [
+          "dnsServers": 
             "[parameters('DNSServerAddress')]"
-          ]
+          
           
 
           

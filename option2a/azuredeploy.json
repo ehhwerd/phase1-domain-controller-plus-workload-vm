@@ -536,7 +536,7 @@
       "name": "[concat(variables('webSrvName'), copyindex())]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "2016-04-30-preview",
       "copy": {
         "name": "webSrvMachineLoop",
         "count": "[variables('webSrvNumbOfInstances')]"
