@@ -333,7 +333,7 @@
       "name": "[concat(parameters('envPrefixName'), 'sqlSrv14')]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "2016-04-30-preview",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('sqlSrvDBNicName'))]",
@@ -360,11 +360,9 @@
           },
           "osDisk": {
             "name": "SQL-Svr-DBOSDisk",
-            "vhd": {
-              "uri": "[concat('http://', variables('storageName'), '.blob.core.windows.net/', variables('vhdContainer'), '/', variables('sqlSrvDBOsDiskName'), '.vhd')]"
-            },
             "caching": "ReadWrite",
-            "createOption": "FromImage"
+            "createOption": "FromImage",
+            "diskSizeGB": "128"
           }
         },
 
@@ -380,12 +378,15 @@
     {
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('webSrvAvailabilitySetName')]",
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "2016-04-30-preview",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "WebSrvAvailabilitySet"
       },
-      "properties": { }
+      "properties": {
+        "managed": true,
+        "platformFaultDomainCount": "2"
+      }
     },
     {
       "name": "[variables('webSrvPublicIP')]",
@@ -569,11 +570,9 @@
           },
           "osDisk": {
             "name": "WebSvrOSDisk",
-            "vhd": {
-              "uri": "[concat('http://', variables('storageName'), '.blob.core.windows.net/', variables('vhdContainer'), '/', variables('webSrvOSDiks'), copyindex(), '.vhd')]"
-            },
             "caching": "ReadWrite",
-            "createOption": "FromImage"
+            "createOption": "FromImage",
+            "diskSizeGB": "128"
           }
         },
         "networkProfile": {
