@@ -414,7 +414,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'VNet')]",
         //"[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
-        "Microsoft.Compute/virtualMachines/adVM/extensions/CreateADForest"
+       // "Microsoft.Compute/virtualMachines/adVM/extensions/CreateADForest"
       ],
       "properties": {
         "mode": "Incremental",
@@ -443,47 +443,47 @@
         }
       }
     },
-    {
-      "name": "RDSDeploy",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-09-01",
-      "dependsOn": [ "Microsoft.Compute/virtualMachines/adVM/extensions/CreateADForest" ],
-      "properties": {
-          "mode": "Incremental",
-          "templateLink": {
-            "uri": "[concat(parameters('_artifactsLocation'), '/', variables('RDSDeployTemplateFolder'), '/', variables('RDSDeployTemplateFileName'))]"
-          },
-          "parameters": {
+   // {
+   //   "name": "RDSDeploy",
+   //   "type": "Microsoft.Resources/deployments",
+   //   "apiVersion": "2016-09-01",
+   //   "dependsOn": [ "Microsoft.Compute/virtualMachines/adVM/extensions/CreateADForest" ],
+   //   "properties": {
+   //       "mode": "Incremental",
+   //       "templateLink": {
+   //         "uri": "[concat(parameters('_artifactsLocation'), '/', variables('RDSDeployTemplateFolder'), '/', variables('RDSDeployTemplateFileName'))]"
+   //       },
+   //       "parameters": {
 
-            "adDomainName": {
-              "value": "[parameters('domainName')]"
-            },
-            "adVnetName": {
-              "value": "[variables('virtualNetworkName')]"
-            },
-            "adSubnetName": {
-              "value": "[variables('adSubnetName')]"
-            },
-            "adminUsername": {
-              "value": "[parameters('adminUsername')]"
-            },
-            "adminPassword": {
-              "value": "[parameters('adminPassword')]"
-            },
-            "imageSKU": {
-              "value": "[parameters('windowsserver')]"
-            },
-            "numberOfRdshInstances": {
-              "value": "[parameters('numberOfRdshInstances')]"
-            },
-            "rdshVmSize": {
-              "value": "[parameters('rdshVmSize')]"
-            }
+   //         "adDomainName": {
+   //           "value": "[parameters('domainName')]"
+   //         },
+   //         "adVnetName": {
+   //           "value": "[variables('virtualNetworkName')]"
+   //         },
+   //         "adSubnetName": {
+   //           "value": "[variables('adSubnetName')]"
+   //         },
+   //         "adminUsername": {
+   //           "value": "[parameters('adminUsername')]"
+   //         },
+   //         "adminPassword": {
+   //           "value": "[parameters('adminPassword')]"
+   //         },
+   //         "imageSKU": {
+   //           "value": "[parameters('windowsserver')]"
+   //         },
+   //         "numberOfRdshInstances": {
+   //           "value": "[parameters('numberOfRdshInstances')]"
+   //         },
+   //         "rdshVmSize": {
+   //           "value": "[parameters('rdshVmSize')]"
+   //         }
 
-          }
+   //       }
         
-        }
-   }
+   //     }
+   //}
     
     
       //{
