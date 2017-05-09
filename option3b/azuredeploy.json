@@ -142,7 +142,7 @@
     "RDSDeployTemplateFolder": "nestedtemplates",
     "RDSDeployTemplateFileName": "RDSDeploy.json",
 
-    "_artifactsLocation": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option3"
+    "_artifactsLocation": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option3b"
 
 
   },
