@@ -30,7 +30,6 @@
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
-    <Content Include="Deploy-AzureResourceGroup.ps1" />
     <None Include="DSC\CreateADPDC.zip" />
     <None Include="DSC\GetADConnect.ps1" />
     <None Include="nestedtemplates\installadconnect.json" />
