@@ -346,7 +346,9 @@
           "apiVersion": "2016-03-30",
           "location": "[resourceGroup().location]",
           "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]",
+            "Microsoft.Compute/virtualMachines/adVM/extensions/GetADConnect"
+
           ],
           "properties": {
             "publisher": "Microsoft.Powershell",
