@@ -65,13 +65,13 @@
         "Standard_D5_v2"
       ]
     },
-    
+
     "VM2Name": {
       "type": "string",
       "metadata": {
         "description": "The name of the second VM being deployed that will be joined to the domain"
-        }
-      },
+      }
+    },
     "vm2size": {
       "type": "string",
       "metadata": {
@@ -103,35 +103,71 @@
       "type": "string",
       "metadata": {
         "description": "the local admin username of VM2"
-        }
-      },
+      }
+    },
     "vm2LocalAdminPassword": {
       "type": "securestring",
       "metadata": {
         "description": "password of local admin of VM2"
-        }
-      },
-      "vm2WindowsServer": {
-        "type": "string",
-        "metadata": {
-          "description": "The version of Windows Server to use"
-        },
-        "defaultValue": "2016-Datacenter",
-        "allowedValues": [
-          "2012-Datacenter",
-          "2012-R2-Datacenter",
-          "2016-Datacenter"
-        ]
-      },
-      "_artifactsLocation": {
-          "type": "string"
-      },
-      "_artifactsLocationSasToken": {
-          "type": "securestring"
       }
-
-
     },
+    "vm2WindowsServer": {
+      "type": "string",
+      "metadata": {
+        "description": "The version of Windows Server to use"
+      },
+      "defaultValue": "2016-Datacenter",
+      "allowedValues": [
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "2016-Datacenter"
+      ]
+    },
+    "numberOfRdshInstances": {
+      "type": "int",
+      "defaultValue": 1,
+      "metadata": {
+        "description": "Number of Remote Desktop SessionHosts"
+      }
+    },
+
+    "rdshVmSize": {
+      "type": "string",
+      "metadata": {
+        "description": "The size of rdsh VM to use"
+      },
+      "defaultValue": "Standard_A2_v2",
+      "allowedValues": [
+        "Standard_A0",
+        "Standard_A1_v2",
+        "Standard_A2_v2",
+        "Standard_A2m_v2",
+        "Standard_A4_v2",
+        "Standard_A4m_v2",
+        "Standard_A8_v2",
+        "Standard_A8m_v2",
+        "Standard_D1_v2",
+        "Standard_D11_v2",
+        "Standard_D12_v2",
+        "Standard_D13_v2",
+        "Standard_D14_v2",
+        "Standard_D15_v2",
+        "Standard_D2_v2",
+        "Standard_D3_v2",
+        "Standard_D4_v2",
+        "Standard_D5_v2"
+      ]
+    },
+
+    "_artifactsLocation": {
+      "type": "string"
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring"
+    }
+
+
+  },
   "variables": {
     "virtualNetworkName": "adVNET",
     "virtualNetworkAddressRange": "10.255.0.0/16",
@@ -168,10 +204,12 @@
     "VPNS2STemplateFolder": "nestedtemplates",
     "VPNS2STemplateFileName": "vpn-s2s-deploy.json",
 
-    "_artifactsLocation": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option3",
-      "RDSDeployTemplateFolder": "nestedtemplates",
-      "RDSDeployTemplateFileName": "RDSDeploy.json",
-      "RDSDeployTemplateParametersFileName": "RDSDeploy.parameters.json"
+    "RDSDeployTemplateFolder": "nestedtemplates",
+    "RDSDeployTemplateFileName": "RDSDeploy.json",
+
+    "_artifactsLocation": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option3"
+
+
   },
   "resources": [
     {
@@ -408,28 +446,28 @@
             }
           }
         }
-        //{
-        //  "type": "extensions",
-        //  "name": "GetADConnect",
-        //  "apiVersion": "2015-06-15",
-        //  "location": "[resourceGroup().location]",
-        //  "dependsOn": [
-        //    "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
-        //  ],
-        //  "properties": {
-        //    "publisher": "Microsoft.Compute",
-        //    "type": "CustomScriptExtension",
-        //    "typeHandlerVersion": "1.8",
-        //    "autoUpgradeMinorVersion": true,
-        //    "settings": {
-        //      "fileUris": [
-        //        "[concat(variables('_artifactsLocation'), '/', variables('GetADConnectDSCFolder'), '/', variables('GetADConnectDSCFileName'))]"
-        //        // "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/GetADConnect.ps1"
-        //      ],
-        //      "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file GetADConnect.ps1 -sourceUrl ', variables('AADConnectSource'), ' -filePath ', variables('AADConnectTargetPath'))]"
-        //    }
-        //  }
-        //}
+        {
+          "type": "extensions",
+          "name": "GetADConnect",
+          "apiVersion": "2015-06-15",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.8",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+                "[concat(variables('_artifactsLocation'), '/', variables('GetADConnectDSCFolder'), '/', variables('GetADConnectDSCFileName'))]"
+                // "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/GetADConnect.ps1"
+              ],
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file GetADConnect.ps1 -sourceUrl ', variables('AADConnectSource'), ' -filePath ', variables('AADConnectTargetPath'))]"
+            }
+          }
+        }
       ]
     },
     {
@@ -474,19 +512,42 @@
       "apiVersion": "2016-09-01",
       "dependsOn": [ "Microsoft.Compute/virtualMachines/adVM/extensions/CreateADForest" ],
       "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('RDSDeployTemplateFolder'), '/', variables('RDSDeployTemplateFileName'))]"
-        },
-        "parameters": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[concat(parameters('_artifactsLocation'), '/', variables('RDSDeployTemplateFolder'), '/', variables('RDSDeployTemplateFileName'))]"
+          },
+          "parameters": {
 
+            "adDomainName": {
+              "value": "[parameters('domainName')]"
+            },
+            "adVnetName": {
+              "value": "[variables('virtualNetworkName')]"
+            },
+            "adSubnetName": {
+              "value": "[variables('adSubnetName')]"
+            },
+            "adminUsername": {
+              "value": "[parameters('adminUsername')]"
+            },
+            "adminPassword": {
+              "value": "[parameters('adminPassword')]"
+            },
+            "imageSKU": {
+              "value": "[parameters('windowsserver')]"
+            },
+            "numberOfRdshInstances": {
+              "value": "[parameters('numberOfRdshInstances')]"
+            },
+            "rdshVmSize": {
+              "value": "[parameters('rdshVmSize')]"
+            }
 
-        }
+          }
         
-
         }
-      }
-    }
+   }
+    
     
       //{
       //  "apiVersion": "2015-01-01",
