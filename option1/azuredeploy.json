@@ -415,7 +415,7 @@
             "settings": {
               "fileUris": [
                 "[concat(variables('_artifactsLocation'), '/', variables('GetADConnectDSCFolder'), '/', variables('GetADConnectDSCFileName'))]"
-                // "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/GetADConnect.ps1"
+                
               ],
               "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file GetADConnect.ps1 -sourceUrl ', variables('AADConnectSource'), ' -filePath ', variables('AADConnectTargetPath'))]"
             }
