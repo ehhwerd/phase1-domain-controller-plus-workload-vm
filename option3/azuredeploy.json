@@ -340,71 +340,71 @@
         }
       },
       "resources": [
-        //{
-        //  "type": "extensions",
-        //  "name": "CreateADForest",
-        //  "apiVersion": "2016-03-30",
-        //  "location": "[resourceGroup().location]",
-        //  "dependsOn": [
-        //    "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]",
-        //    "Microsoft.Compute/virtualMachines/adVM/extensions/GetADConnect"
-
-        //  ],
-        //  "properties": {
-        //    "publisher": "Microsoft.Powershell",
-        //    "type": "DSC",
-        //    "typeHandlerVersion": "2.22",
-        //    "autoUpgradeMinorVersion": true,
-        //    "settings": {
-        //      "wmfVersion": "latest",
-        //      "configuration": {
-        //        "url": "[concat(variables('_artifactsLocation'), '/', variables('CreateADForestDSCFolder'), '/', variables('CreateADForestDSCFileName'))]",
-        //        //"url": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/CreateADPDC.zip",
-        //        "script": "CreateADPDC.ps1",
-        //        "function": "CreateADPDC"
-        //      },
-        //      "configurationArguments": {
-        //        "DomainName": "[parameters('domainName')]"
-        //      },
-        //      "privacy": {
-        //        "datacollection": "enable"
-        //      },
-        //      "advancedOptions": {
-        //        "forcePullAndApply": false
-        //      }
-        //    },
-        //    "protectedSettings": {
-        //      "configurationArguments": {
-        //        "AdminCreds": {
-        //          "UserName": "[parameters('adminUsername')]",
-        //          "Password": "[parameters('adminPassword')]"
-        //        }
-        //      }
-        //    }
-        //  }
-        //},
         {
           "type": "extensions",
-          "name": "GetADConnect",
-          "apiVersion": "2015-06-15",
+          "name": "CreateADForest",
+          "apiVersion": "2016-03-30",
           "location": "[resourceGroup().location]",
           "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]",
+            "Microsoft.Compute/virtualMachines/adVM/extensions/GetADConnect"
+
           ],
           "properties": {
-            "publisher": "Microsoft.Compute",
-            "type": "CustomScriptExtension",
-            "typeHandlerVersion": "1.8",
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.22",
             "autoUpgradeMinorVersion": true,
             "settings": {
-              "fileUris": [
-                "[concat(variables('_artifactsLocation'), '/', variables('GetADConnectDSCFolder'), '/', variables('GetADConnectDSCFileName'))]"
-                // "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/GetADConnect.ps1"
-              ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file GetADConnect.ps1 -sourceUrl ', variables('AADConnectSource'), ' -filePath ', variables('AADConnectTargetPath'))]"
+              "wmfVersion": "latest",
+              "configuration": {
+                "url": "[concat(variables('_artifactsLocation'), '/', variables('CreateADForestDSCFolder'), '/', variables('CreateADForestDSCFileName'))]",
+                //"url": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/CreateADPDC.zip",
+                "script": "CreateADPDC.ps1",
+                "function": "CreateADPDC"
+              },
+              "configurationArguments": {
+                "DomainName": "[parameters('domainName')]"
+              },
+              "privacy": {
+                "datacollection": "enable"
+              },
+              "advancedOptions": {
+                "forcePullAndApply": false
+              }
+            },
+            "protectedSettings": {
+              "configurationArguments": {
+                "AdminCreds": {
+                  "UserName": "[parameters('adminUsername')]",
+                  "Password": "[parameters('adminPassword')]"
+                }
+              }
             }
           }
         }
+        //{
+        //  "type": "extensions",
+        //  "name": "GetADConnect",
+        //  "apiVersion": "2015-06-15",
+        //  "location": "[resourceGroup().location]",
+        //  "dependsOn": [
+        //    "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
+        //  ],
+        //  "properties": {
+        //    "publisher": "Microsoft.Compute",
+        //    "type": "CustomScriptExtension",
+        //    "typeHandlerVersion": "1.8",
+        //    "autoUpgradeMinorVersion": true,
+        //    "settings": {
+        //      "fileUris": [
+        //        "[concat(variables('_artifactsLocation'), '/', variables('GetADConnectDSCFolder'), '/', variables('GetADConnectDSCFileName'))]"
+        //        // "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/GetADConnect.ps1"
+        //      ],
+        //      "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file GetADConnect.ps1 -sourceUrl ', variables('AADConnectSource'), ' -filePath ', variables('AADConnectTargetPath'))]"
+        //    }
+        //  }
+        //}
       ]
     },
     {
