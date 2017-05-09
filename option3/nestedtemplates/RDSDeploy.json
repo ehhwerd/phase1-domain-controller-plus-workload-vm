@@ -150,13 +150,23 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "gw-availabilityset",
-      "location": "[resourceGroup().location]"
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "managed": "true",
+        "platformUpdateDomainCount": 5,
+        "platformFaultDomainCount": 2
+      }
     },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "cb-availabilityset",
-      "location": "[resourceGroup().location]"
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "managed": "true",
+        "platformUpdateDomainCount": 5,
+        "platformFaultDomainCount": 2
+      }
     },
     {
       "apiVersion": "2015-06-15",
