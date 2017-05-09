@@ -445,7 +445,7 @@
               }
             }
           }
-        }
+        },
         {
           "type": "extensions",
           "name": "GetADConnect",
