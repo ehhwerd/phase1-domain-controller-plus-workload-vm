@@ -88,7 +88,7 @@
     "cbdnsLabelPrefix": "[tolower(concat('cbd', resourceGroup().name))]",
     "storageAccountName": "[tolower(concat('rdsa', uniqueString(resourceGroup().id)))]",
     "storageAccountType": "Standard_LRS",
-    "uniqueStorageAccountContainerName": "[concat('sac', resourceGroup().name)]",
+    "uniqueStorageAccountContainerName": "[tolower(concat('sac', resourceGroup().name))]",
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
     "dnsServerPrivateIp": "10.255.0.4",
