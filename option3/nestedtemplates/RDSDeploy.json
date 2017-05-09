@@ -575,7 +575,7 @@
             "name": "cb-vm-osdisk",
             "caching": "ReadWrite",
             "createOption": "FromImage",
-            "diskSize": "128"
+            "diskSizeGB": "128"
           }
         },
         "networkProfile": {
