@@ -52,7 +52,7 @@
 
        Script runScriptFile
     {
-        DependsOn = "[Script]script1"
+        DependsOn = "[Script]createScriptFile"
         GetScript = {
             $File = 'C:\AzureADConnect.msi'
             $Results = @{}
@@ -80,7 +80,7 @@
 
     Script runADConnectFile
     {
-        DependsOn = "[Script]script2"
+        DependsOn = "[Script]runScriptFile"
         GetScript = {
             $File = 'C:\Program Files\Microsoft Azure Active Directory Connect\AzureADConnect.exe'
             $Results = @{}

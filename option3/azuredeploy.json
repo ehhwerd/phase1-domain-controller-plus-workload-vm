@@ -346,8 +346,8 @@
           "apiVersion": "2016-03-30",
           "location": "[resourceGroup().location]",
           "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]",
-            "Microsoft.Compute/virtualMachines/adVM/extensions/GetADConnect"
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
+            
 
           ],
           "properties": {
@@ -414,7 +414,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'VNet')]",
         //"[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
-       // "Microsoft.Compute/virtualMachines/adVM/extensions/CreateADForest"
+        "Microsoft.Compute/virtualMachines/adVM/extensions/CreateADForest"
       ],
       "properties": {
         "mode": "Incremental",
