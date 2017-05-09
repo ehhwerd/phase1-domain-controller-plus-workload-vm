@@ -32,8 +32,11 @@
     </None>
     <None Include="DSC\CreateADPDC.zip" />
     <None Include="DSC\GetADConnect.ps1" />
+    <None Include="nestedtemplates\Configuration.zip" />
     <None Include="nestedtemplates\installadconnect.json" />
     <None Include="nestedtemplates\new-vm-join-domain.json" />
+    <Content Include="nestedtemplates\RDSDeploy.json" />
+    <Content Include="nestedtemplates\RDSDeploy.parameters.json" />
     <None Include="nestedtemplates\vnet-with-dns-server.json" />
     <None Include="nestedtemplates\vnet.json" />
     <None Include="nestedtemplates\vpn-s2s-deploy.json" />

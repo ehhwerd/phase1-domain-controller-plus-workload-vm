@@ -122,6 +122,12 @@
           "2012-R2-Datacenter",
           "2016-Datacenter"
         ]
+      },
+      "_artifactsLocation": {
+          "type": "string"
+      },
+      "_artifactsLocationSasToken": {
+          "type": "securestring"
       }
 
 
@@ -162,7 +168,10 @@
     "VPNS2STemplateFolder": "nestedtemplates",
     "VPNS2STemplateFileName": "vpn-s2s-deploy.json",
 
-    "_artifactsLocation": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1"
+    "_artifactsLocation": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option3",
+      "RDSDeployTemplateFolder": "nestedtemplates",
+      "RDSDeployTemplateFileName": "RDSDeploy.json",
+      "RDSDeployTemplateParametersFileName": "RDSDeploy.parameters.json"
   },
   "resources": [
     {
@@ -398,29 +407,29 @@
               }
             }
           }
-        },
-        {
-          "type": "extensions",
-          "name": "GetADConnect",
-          "apiVersion": "2015-06-15",
-          "location": "[resourceGroup().location]",
-          "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
-          ],
-          "properties": {
-            "publisher": "Microsoft.Compute",
-            "type": "CustomScriptExtension",
-            "typeHandlerVersion": "1.8",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "fileUris": [
-                "[concat(variables('_artifactsLocation'), '/', variables('GetADConnectDSCFolder'), '/', variables('GetADConnectDSCFileName'))]"
-                // "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/GetADConnect.ps1"
-              ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file GetADConnect.ps1 -sourceUrl ', variables('AADConnectSource'), ' -filePath ', variables('AADConnectTargetPath'))]"
-            }
-          }
         }
+        //{
+        //  "type": "extensions",
+        //  "name": "GetADConnect",
+        //  "apiVersion": "2015-06-15",
+        //  "location": "[resourceGroup().location]",
+        //  "dependsOn": [
+        //    "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
+        //  ],
+        //  "properties": {
+        //    "publisher": "Microsoft.Compute",
+        //    "type": "CustomScriptExtension",
+        //    "typeHandlerVersion": "1.8",
+        //    "autoUpgradeMinorVersion": true,
+        //    "settings": {
+        //      "fileUris": [
+        //        "[concat(variables('_artifactsLocation'), '/', variables('GetADConnectDSCFolder'), '/', variables('GetADConnectDSCFileName'))]"
+        //        // "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/GetADConnect.ps1"
+        //      ],
+        //      "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file GetADConnect.ps1 -sourceUrl ', variables('AADConnectSource'), ' -filePath ', variables('AADConnectTargetPath'))]"
+        //    }
+        //  }
+        //}
       ]
     },
     {
@@ -460,53 +469,25 @@
       }
     },
     {
-      "name": "NewVMDomainJoin",
+      "name": "RDSDeploy",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
-      "dependsOn": [ "Microsoft.Resources/deployments/UpdateVNetDNS" ],
+      "dependsOn": [ "Microsoft.Compute/virtualMachines/adVM/extensions/CreateADForest" ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('_artifactsLocation'), '/', variables('NewVMDomainJoinTemplateFolder'), '/', variables('NewVMDomainJoinTemplateFileName'))]",
-          "contentVersion": "1.0.0.0"
+          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('RDSDeployTemplateFolder'), '/', variables('RDSDeployTemplateFileName'))]"
         },
         "parameters": {
-          "existingVNETName": {
-            "value": "[variables('virtualNetworkName')]"
-          },
 
-          "existingSubnetName": {
-            "value": "[variables('adSubnetName')]"
-          },
-          "dnsLabelPrefix": {
-            "value": "[parameters('VM2Name')]"
-          },
-          "vmSize": {
-            "value": "[parameters('vm2size')]"
-          },
-          "domainToJoin": {
-            "value": "[parameters('domainName')]"
-          },
-          "domainUserName": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "domainPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "vmAdminUsername": {
-            "value": "[parameters('vm2LocalAdminUsername')]"
-          },
-          "vmAdminPassword": {
-            "value": "[parameters('vm2LocalAdminPassword')]"
-          },
-          "windowsserver": {
-            "value": "[parameters('vm2WindowsServer')]"
-          }
 
+        }
+        
 
         }
       }
     }
+    
       //{
       //  "apiVersion": "2015-01-01",
 
