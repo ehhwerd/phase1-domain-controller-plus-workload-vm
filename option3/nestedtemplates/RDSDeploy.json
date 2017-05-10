@@ -479,8 +479,8 @@
             "domainName": "[parameters('adDomainName')]",
             "externalfqdn": "[reference(variables('brokerIpRef')).dnsSettings.fqdn]",
             "numberOfRdshInstances": "[parameters('numberOfRdshInstances')]",
-            "sessionHostNamingPrefix": "rdsh-",
-            "webAccessServer": "[concat('broker.',parameters('adDomainName'))]"
+            "sessionHostNamingPrefix": "rdsh-"
+          //  "webAccessServer": "[concat('broker.',parameters('adDomainName'))]"
           }
         },
         "protectedSettings": {
