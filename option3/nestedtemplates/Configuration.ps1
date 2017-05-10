@@ -315,18 +315,6 @@ configuration RDSDeployment
         }
 
 		
-		<#
-        xRDServer AddLicenseServer
-        {
-            DependsOn = "[xRDSessionDeployment]Deployment"
-            
-            Role    = 'RDS-Licensing'
-            Server  = $connectionBroker
-			
-			PsDscRunAsCredential = $domainCreds
-        }
-		#>
-		
 		xRDServer AddLicenseServer
         {
             DependsOn = "[xRDSessionDeployment]Deployment"
@@ -351,19 +339,6 @@ configuration RDSDeployment
             PsDscRunAsCredential = $domainCreds
         }
 
-		<#
-        xRDServer AddGatewayServer
-        {
-            DependsOn = "[xRDLicenseConfiguration]LicenseConfiguration"
-            
-            Role    = 'RDS-Gateway'
-            Server  = $webAccessServer
-
-            GatewayExternalFqdn = $externalFqdn
-
-            PsDscRunAsCredential = $domainCreds
-        }
-		#>
 
         xRDGatewayConfiguration GatewayConfiguration
         {
