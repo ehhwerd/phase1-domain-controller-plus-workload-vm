@@ -205,7 +205,7 @@ configuration RDSDeployment
         [String]$connectionBroker,
         
         # Web Access Node name
-        [String]$connectionBroker,
+        # [String]$connectionBroker,
 
         # Gateway external FQDN
         [String]$externalFqdn,
@@ -322,9 +322,7 @@ configuration RDSDeployment
             Role    = 'RDS-Licensing'
             Server  = $connectionBroker
 			
-			GatewayExternalFqdn = $externalFqdn
-
-            PsDscRunAsCredential = $domainCreds
+			PsDscRunAsCredential = $domainCreds
         }
 
         xRDLicenseConfiguration LicenseConfiguration
@@ -345,7 +343,7 @@ configuration RDSDeployment
             DependsOn = "[xRDLicenseConfiguration]LicenseConfiguration"
             
             Role    = 'RDS-Gateway'
-            Server  = $connectionBroker
+            Server  = $localhost
 
             GatewayExternalFqdn = $externalFqdn
 

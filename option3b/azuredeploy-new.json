@@ -164,7 +164,7 @@
                 "id": "[variables('adlbFEConfigID')]"
               },
               "protocol": "tcp",
-              "frontendPort": "[parameters('pdcRDPPort')]",
+              "frontendPort": "[variables('pdcRDPPort')]",
               "backendPort": 3389,
               "enableFloatingIP": false
             }
@@ -176,7 +176,7 @@
                 "id": "[variables('adlbFEConfigID')]"
               },
               "protocol": "tcp",
-              "frontendPort": "[parameters('bdcRDPPort')]",
+              "frontendPort": "[variables('bdcRDPPort')]",
               "backendPort": 3389,
               "enableFloatingIP": false
             }
