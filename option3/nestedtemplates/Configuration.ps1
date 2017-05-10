@@ -289,6 +289,7 @@ configuration RDSDeployment
 		
         WindowsFeature RSAT-RDS-Tools
         {
+			DependsOn = "[WindowsFeature]RDS-Gateway"
             Ensure = "Present"
             Name = "RSAT-RDS-Tools"
             IncludeAllSubFeature = $true
@@ -296,6 +297,7 @@ configuration RDSDeployment
 
         WindowsFeature RDS-Licensing
         {
+			DependsOn = "[WindowsFeature]RDS-Gateway"
             Ensure = "Present"
             Name = "RDS-Licensing"
         }
@@ -319,6 +321,8 @@ configuration RDSDeployment
             
             Role    = 'RDS-Licensing'
             Server  = $connectionBroker
+			
+			GatewayExternalFqdn = $externalFqdn
 
             PsDscRunAsCredential = $domainCreds
         }
