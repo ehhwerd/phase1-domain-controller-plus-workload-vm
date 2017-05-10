@@ -5,42 +5,42 @@
     "virtualNetworkName": {
       "type": "string",
       "metadata": {
-        "description": "The name of the Virtual Network to Create"
+        "Description": "The name of the Virtual Network to Create"
       }
     },
     "virtualNetworkAddressRange": {
       "type": "string",
       "metadata": {
-        "description": "The address range of the new VNET in CIDR format"
+        "Description": "The address range of the new VNET in CIDR format"
       },
       "defaultValue": "10.0.0.0/16"
     },
     "subnetName": {
       "type": "string",
       "metadata": {
-        "description": "The name of the subnet created in the new VNET"
+        "Description": "The name of the subnet created in the new VNET"
       }
     },
     "subnetRange": {
       "type": "string",
       "metadata": {
-        "description": "The address range of the subnet created in the new VNET"
+        "Description": "The address range of the subnet created in the new VNET"
       },
       "defaultValue": "10.0.0.0/24"
     },
     "DNSServerAddress": {
       "type": "array",
       "metadata": {
-        "description": "The DNS address(es) of the DNS Server(s) used by the VNET"
+        "Description": "The DNS address(es) of the DNS Server(s) used by the VNET"
       }
     }
   },
   "resources": [
     {
-      "type": "Microsoft.Network/virtualNetworks",
       "name": "[parameters('virtualNetworkName')]",
-      "apiVersion": "2016-03-30",
+      "type": "Microsoft.Network/virtualNetworks",
       "location": "[resourceGroup().location]",
+      "apiVersion": "2016-10-01",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -48,12 +48,7 @@
           ]
         },
         "dhcpOptions": {
-          "dnsServers": 
-            "[parameters('DNSServerAddress')]"
-          
-          
-
-          
+          "dnsServers": "[parameters('DNSServerAddress')]"
         },
         "subnets": [
           {

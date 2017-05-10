@@ -25,7 +25,6 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
-    <None Include="azuredeploy-new.json" />
     <None Include="azuredeploy.json" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
@@ -34,7 +33,6 @@
     <None Include="DSC\ConfigureADBDC.zip" />
     <None Include="DSC\CreateADPDC.ps1" />
     <None Include="DSC\CreateADPDC.zip" />
-    <None Include="DSC\CreateADPDCwithADConnect.zip" />
     <None Include="DSC\PrepareADBDC.ps1" />
     <None Include="DSC\PrepareADBDC.zip" />
     <None Include="nestedtemplates\Configuration.zip" />
@@ -42,10 +40,8 @@
     <None Include="nestedtemplates\installadconnect.json" />
     <None Include="nestedtemplates\nic.json" />
     <None Include="nestedtemplates\RDSDeploy.json" />
-    <None Include="nestedtemplates\vnet-new.json" />
-    <None Include="nestedtemplates\vnet-with-dns-server-new.json" />
-    <None Include="nestedtemplates\vnet-with-dns-server.json" />
     <None Include="nestedtemplates\vnet.json" />
+    <None Include="nestedtemplates\vnet-with-dns-server.json" />
     <None Include="nestedtemplates\vpn-s2s-deploy.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
