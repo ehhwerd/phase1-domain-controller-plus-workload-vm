@@ -31,6 +31,7 @@
     </None>
     <None Include="DSC\CreateADPDC.zip" />
     <None Include="DSC\GetADConnect.ps1" />
+    <None Include="nestedtemplates\Configuration.ps1" />
     <None Include="nestedtemplates\Configuration.zip" />
     <None Include="nestedtemplates\installadconnect.json" />
     <None Include="nestedtemplates\new-vm-join-domain.json" />

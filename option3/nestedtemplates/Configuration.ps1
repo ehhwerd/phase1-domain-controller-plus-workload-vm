@@ -342,8 +342,7 @@ configuration RDSDeployment
 
         xRDGatewayConfiguration GatewayConfiguration
         {
-            # DependsOn = "[xRDServer]AddGatewayServer"
-			DependsOn = "[xRDLicenseConfiguration]LicenseConfiguration"
+            DependsOn = "[xRDLicenseConfiguration]LicenseConfiguration"
 			
             ConnectionBroker = $connectionBroker
             GatewayServer    = $webAccessServer
