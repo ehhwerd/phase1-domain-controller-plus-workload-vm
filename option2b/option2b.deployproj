@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>a89a2de3-79cf-4d58-81f4-4173d2865021</ProjectGuid>
+    <ProjectGuid>22902e3b-d33b-4d08-a9ec-ab41504c9e20</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
     <TargetFrameworkIdentifier>Deployment</TargetFrameworkIdentifier>
@@ -25,16 +25,12 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
-    <Content Include="azuredeploy.json" />
-    <Content Include="azuredeploy.parameters.json" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
-    <None Include="images\architecture.png" />
-    <None Include="images\resources.png" />
-    <None Include="metadata.json" />
-    <None Include="README.md" />
-    <None Include="scripts\WebServerConfig.ps1.zip" />
+    <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <Content Include="WebSiteSQLDatabase.json" />
+    <Content Include="WebSiteSQLDatabase.parameters.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>

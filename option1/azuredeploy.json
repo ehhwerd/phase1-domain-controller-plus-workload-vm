@@ -398,28 +398,6 @@
               }
             }
           }
-        },
-        {
-          "type": "extensions",
-          "name": "GetADConnect",
-          "apiVersion": "2015-06-15",
-          "location": "[resourceGroup().location]",
-          "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
-          ],
-          "properties": {
-            "publisher": "Microsoft.Compute",
-            "type": "CustomScriptExtension",
-            "typeHandlerVersion": "1.8",
-            "autoUpgradeMinorVersion": false,
-            "settings": {
-              "fileUris": [
-                "[concat(variables('_artifactsLocation'), '/', variables('GetADConnectDSCFolder'), '/', variables('GetADConnectDSCFileName'))]"
-                
-              ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file GetADConnect.ps1 -sourceUrl ', variables('AADConnectSource'), ' -filePath ', variables('AADConnectTargetPath'))]"
-            }
-          }
         }
       ]
     },

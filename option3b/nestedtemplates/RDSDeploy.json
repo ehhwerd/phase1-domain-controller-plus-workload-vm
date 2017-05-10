@@ -6,22 +6,22 @@
       "type": "string",
       "metadata": {
         "description": "The name of the AD domain. For example contoso.com"
-      },
-      "defaultValue": "contoso.com"
+      }
+      
     },
     "adVnetName": {
       "type": "string",
       "metadata": {
         "description": "The vnet name of AD domain. For example johnvnet1"
       },
-      "defaultValue": "[concat('ADVNET',resourceGroup().name)]"
+      "defaultValue": "advnet"
     },
     "adSubnetName": {
       "type": "string",
       "metadata": {
         "description": "The subnet name of AD domain. For example johnsubnet1"
       },
-      "defaultValue": "[concat('ADStaticSubnet',resourceGroup().name)]"
+      "defaultValue": "adsubnet"
     },
     "adminUsername": {
       "type": "string",
@@ -80,10 +80,11 @@
       "metadata": {
         "description": "The size of the RDSH VMs"
       },
-      "defaultValue": "Standard_A4_v2"
+      "defaultValue": "Standard_A2_v2"
     }
   },
   "variables": {
+    "dnsLabelPrefix": "[tolower(concat('rdsa', uniqueString(resourceGroup().id)))]",
     "gwdnsLabelPrefix": "[tolower(concat('gwd', resourceGroup().name))]",
     "cbdnsLabelPrefix": "[tolower(concat('cbd', resourceGroup().name))]",
     "storageAccountName": "[tolower(concat('rdsa', uniqueString(resourceGroup().id)))]",
@@ -96,9 +97,7 @@
     "publicIpRef": "publicIp",
     "brokerIpRef": "brokerpublicIp",
     "gatewayIpRef": "gatewaypublicIp",
-    "assetLocation": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option3/nestedtemplates",
-    "dnsLabelPrefix": "[tolower(concat('rdsa', uniqueString(resourceGroup().id)))]"
-
+    "assetLocation": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option3b/nestedtemplates"
   },
   "resources": [
     {
@@ -172,7 +171,12 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "rdsh-availabilityset",
-      "location": "[resourceGroup().location]"
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "managed": "true",
+        "platformUpdateDomainCount": 5,
+        "platformFaultDomainCount": 2
+      }
     },
     {
       "apiVersion": "2015-06-15",
@@ -390,7 +394,7 @@
       ],
       "properties": {
         "hardwareProfile": {
-          "vmSize": "Standard_A2_v2"
+          "vmSize": "Standard_A2"
         },
         "availabilitySet": {
           "id": "[resourceId('Microsoft.Compute/availabilitySets', 'gw-availabilityset')]"
@@ -408,7 +412,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "gw-vm-os-disk",
+            "name": "gw-vm-osdisk",
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "diskSizeGB": "128"
@@ -554,7 +558,7 @@
       ],
       "properties": {
         "hardwareProfile": {
-          "vmSize": "Standard_A2_v2"
+          "vmSize": "Standard_A2"
         },
         "availabilitySet": {
           "id": "[resourceId('Microsoft.Compute/availabilitySets', 'cb-availabilityset')]"
@@ -572,7 +576,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "cb-vm-osdisk",
+            "name": "osdisk",
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "diskSizeGB": "128"
