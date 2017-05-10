@@ -205,7 +205,7 @@ configuration RDSDeployment
         [String]$connectionBroker,
         
         # Web Access Node name
-        # [String]$connectionBroker,
+        [String]$webAccessServer,
 
         # Gateway external FQDN
         [String]$externalFqdn,
@@ -232,7 +232,7 @@ configuration RDSDeployment
     $domainCreds = New-Object System.Management.Automation.PSCredential ("$domainName\$username", $adminCreds.Password)
 
     if (-not $connectionBroker)   { $connectionBroker = $localhost }
-    if (-not $connectionBroker)    { $connectionBroker  = $localhost }
+    if (-not $webAccessServer)    { $webAccessServer  = $localhost }
 
     if ($sessionHostNamingPrefix)
     { 
@@ -307,7 +307,7 @@ configuration RDSDeployment
             DependsOn = "[DomainJoin]DomainJoin"
 
             ConnectionBroker = $connectionBroker
-            WebAccessServer  = $connectionBroker
+            WebAccessServer  = $webAccessServer
 
             SessionHosts     = $sessionHosts
 
@@ -343,7 +343,7 @@ configuration RDSDeployment
             DependsOn = "[xRDLicenseConfiguration]LicenseConfiguration"
             
             Role    = 'RDS-Gateway'
-            Server  = $localhost
+            Server  = $webAccessServer
 
             GatewayExternalFqdn = $externalFqdn
 
@@ -355,7 +355,7 @@ configuration RDSDeployment
             DependsOn = "[xRDServer]AddGatewayServer"
 
             ConnectionBroker = $connectionBroker
-            GatewayServer    = $connectionBroker
+            GatewayServer    = $webAccessServer
 
             ExternalFqdn = $externalFqdn
 
