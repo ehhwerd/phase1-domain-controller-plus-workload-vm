@@ -42,7 +42,8 @@
       "type": "securestring"
     },
     "databaseName": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "[concat(parameters('hostingPlanName'),'-db')]"
     },
     "collation": {
       "type": "string",
@@ -80,8 +81,8 @@
   },
   "variables": {
     "webSiteName": "[concat('webSite', uniqueString(resourceGroup().id))]",
-    "sqlserverName": "[concat('sqlserver', uniqueString(resourceGroup().id))]"
-  },
+    "sqlserverName": "[concat('sqlserver', uniqueString(resourceGroup().id))]",
+    },
   "resources": [
     {
       "name": "[variables('sqlserverName')]",
