@@ -99,19 +99,7 @@
         "Standard_D5_v2"
       ]
     },
-    "vm2LocalAdminUsername": {
-      "type": "string",
-      "metadata": {
-        "description": "the local admin username of VM2"
-        }
-      },
-    "vm2LocalAdminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "password of local admin of VM2"
-        }
-      },
-      "vm2WindowsServer": {
+    "vm2WindowsServer": {
         "type": "string",
         "metadata": {
           "description": "The version of Windows Server to use"
@@ -472,10 +460,10 @@
             "value": "[parameters('adminPassword')]"
           },
           "vmAdminUsername": {
-            "value": "[parameters('vm2LocalAdminUsername')]"
+            "value": "[parameters('adminUsername')]"
           },
           "vmAdminPassword": {
-            "value": "[parameters('vm2LocalAdminPassword')]"
+            "value": "[parameters('adminPassword')]"
           },
           "windowsserver": {
             "value": "[parameters('vm2WindowsServer')]"
