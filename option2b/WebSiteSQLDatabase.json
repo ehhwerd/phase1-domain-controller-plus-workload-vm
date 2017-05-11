@@ -80,8 +80,8 @@
     }
   },
   "variables": {
-    "webSiteName": "[concat('webSite', uniqueString(resourceGroup().id))]",
-    "sqlserverName": "[concat('sqlserver', uniqueString(resourceGroup().id))]",
+    "webSiteName": "[tolower(concat('webSite', uniqueString(resourceGroup().id)))]",
+    "sqlserverName": "[tolower(concat('sqlserver', uniqueString(resourceGroup().id)))]",
     },
   "resources": [
     {
