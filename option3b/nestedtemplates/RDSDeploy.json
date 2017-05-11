@@ -168,16 +168,11 @@
       }
     },
     {
-      "apiVersion": "2016-04-30-preview",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "rdsh-availabilityset",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "managed": "true",
-        "platformUpdateDomainCount": 5,
-        "platformFaultDomainCount": 2
-      }
-    },
+      "location": "[resourceGroup().location]"
+      },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/loadBalancers",
