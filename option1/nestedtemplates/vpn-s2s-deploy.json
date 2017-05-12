@@ -60,7 +60,7 @@
     },
     "gatewaySubnetPrefix": {
       "type": "string",
-      "defaultValue": "10.0.200.0/29",
+      "defaultValue": "10.255.200.0/29",
       "metadata": {
         "description": "CIDR block for gateway subnet, subset of virtualNetworkAddressRange address space"
       }
