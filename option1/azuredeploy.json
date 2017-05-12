@@ -472,28 +472,28 @@
 
         }
       }
-    }
-      //{
-      //  "apiVersion": "2015-01-01",
+    },
+      {
+        "apiVersion": "2015-01-01",
 
-      //  "name": "S2S-VPN-Deployment",
-      //  "type": "Microsoft.Resources/deployments",
-      //  "dependsOn": [
-      //    "[resourceId('Microsoft.Resources/deployments', 'UpdateVNetDNS')]"
-      //  ],
-      //  "properties": {
-      //    "mode": "Incremental",
-      //    "templateLink": {
-      //      "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/nestedtemplates/vpn-s2s-deploy.json",
-      //      "contentVersion": "1.0.0.0"
-      //    },
-      //    "parameters": {
-      //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-      //      "virtualNetworkAddressRange": { "value": "[variables('virtualNetworkAddressRange')]" },
-      //      "adSubnetName": { "value": "[variables('adSubnetName')]" },
-      //      "adSubnetAddressPrefix": { "value": "[variables('adSubnetAddressPrefix')]" }
-      //    }
-      //  }
-      //}
+        "name": "S2S-VPN-Deployment",
+        "type": "Microsoft.Resources/deployments",
+        "dependsOn": [
+          "[resourceId('Microsoft.Resources/deployments', 'UpdateVNetDNS')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/nestedtemplates/vpn-s2s-deploy.json",
+            "contentVersion": "1.0.0.0"
+          },
+          "parameters": {
+            "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+            "virtualNetworkAddressRange": { "value": "[variables('virtualNetworkAddressRange')]" },
+            "adSubnetName": { "value": "[variables('adSubnetName')]" },
+            "adSubnetAddressPrefix": { "value": "[variables('adSubnetAddressPrefix')]" }
+          }
+        }
+      }
   ]
 }
