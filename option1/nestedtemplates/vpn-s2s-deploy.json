@@ -15,7 +15,7 @@
     },
     "localGatewayName": {
       "type": "string",
-      "defaultValue": "localGateway",
+      "defaultValue": "onPremGateway",
       "metadata": {
         "description": "Arbitrary name for gateway resource representing "
       }
@@ -24,7 +24,7 @@
       "type": "string",
       "defaultValue": "1.1.1.1",
       "metadata": {
-        "description": "Public IP of your StrongSwan Instance"
+        "description": "Public IP of your OnPrem Gateway Instance"
       }
     },
     "localAddressPrefix": {
@@ -93,7 +93,7 @@
     },
     "connectionName": {
       "type": "string",
-      "defaultValue": "Azure2Other",
+      "defaultValue": "Azure2OnPrem",
       "metadata": {
         "description": "Arbitrary name for the new connection between Azure VNet and other network"
       }
