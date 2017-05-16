@@ -479,7 +479,7 @@
         "name": "S2S-VPN-Deployment",
         "type": "Microsoft.Resources/deployments",
         "dependsOn": [
-          "[resourceId('Microsoft.Resources/deployments', 'UpdateVNetDNS')]"
+          "[resourceId('Microsoft.Resources/deployments', 'NewVMDomainJoin')]"
         ],
         "properties": {
           "mode": "Incremental",
