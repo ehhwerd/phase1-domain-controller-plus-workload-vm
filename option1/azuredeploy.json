@@ -492,10 +492,7 @@
             "virtualNetworkAddressRange": { "value": "[variables('virtualNetworkAddressRange')]" },
             "adSubnetName": { "value": "[variables('adSubnetName')]" },
             "adSubnetAddressPrefix": { "value": "[variables('adSubnetAddressPrefix')]" },
-            "DNSServerAddress": {
-              "value": [ "[variables('adNicIPAddress')]" ]
-
-            }
+            "DNSServerAddress": { "value": [ "[variables('adNicIPAddress')]" ] }
           }
         }
       }
