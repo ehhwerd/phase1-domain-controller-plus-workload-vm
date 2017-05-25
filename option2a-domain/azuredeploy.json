@@ -1012,7 +1012,37 @@
             }
           ]
         }
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2017-03-30",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "concat(variables('webSrvName'), copyindex()),'/joindomain')]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('webSrvName'))]"
+          ],
+          "tags": {
+            "displayName": "WebSrv/joindomain"
+          },
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "JsonADDomainExtension",
+            "typeHandlerVersion": "1.3",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "Name": "[parameters('domainName')]",
+              "OUPath": "[parameters('ouPath')]",
+              "User": "[concat(parameters('domainName'), '\\', parameters('username'))]",
+              "Restart": "true",
+              "Options": "[parameters('domainJoinOptions')]"
+            },
+            "protectedSettings": {
+              "Password": "[parameters('password')]"
+            }
+          }
+        }
+      ]
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
