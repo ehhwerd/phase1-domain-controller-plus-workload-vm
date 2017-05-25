@@ -25,12 +25,19 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
-    <Content Include="azuredeploy.json" />
-    <Content Include="azuredeploy.parameters.json" />
+    <None Include="2a-existing-vnet.json" />
+    <None Include="azuredeploy.json" />
+    <None Include="azuredeploy.parameters.json" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
-    <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <None Include="DSC\CreateADPDC.zip" />
+    <None Include="DSC\GetADConnect.ps1" />
+    <None Include="nestedtemplates\installadconnect.json" />
+    <None Include="nestedtemplates\new-vm-join-domain.json" />
+    <None Include="nestedtemplates\vnet-with-dns-server.json" />
+    <None Include="nestedtemplates\vnet.json" />
+    <None Include="nestedtemplates\vpn-s2s-deploy.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
