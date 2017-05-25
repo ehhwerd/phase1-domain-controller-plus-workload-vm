@@ -1049,7 +1049,7 @@
           "Password": "[parameters('password')]"
         }
       }
-    }
+    },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('webSrvName'), copyindex(),'/', variables('vmExtensionName'))]",
