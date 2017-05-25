@@ -13,6 +13,8 @@ Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "option3b", "option3b\option
 EndProject
 Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "option2b", "option2b\option2b.deployproj", "{22902E3B-D33B-4D08-A9EC-AB41504C9E20}"
 EndProject
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "option2a-domain", "option2a-domain\option2a-domain.deployproj", "{D6DDF91E-D302-4DDB-996C-257EF092CEDC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{22902E3B-D33B-4D08-A9EC-AB41504C9E20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22902E3B-D33B-4D08-A9EC-AB41504C9E20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22902E3B-D33B-4D08-A9EC-AB41504C9E20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6DDF91E-D302-4DDB-996C-257EF092CEDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6DDF91E-D302-4DDB-996C-257EF092CEDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6DDF91E-D302-4DDB-996C-257EF092CEDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6DDF91E-D302-4DDB-996C-257EF092CEDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
