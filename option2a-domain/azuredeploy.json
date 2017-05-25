@@ -188,7 +188,7 @@
     "virtualNetworkName": "[concat(parameters('envPrefixName'), 'VNET')]",
     "addressPrefix": "10.255.0.0/16",
     "feSubnetPrefix": "10.255.1.0/24",
-    "dbSubnetPrefix": "10.255.2.0/24",
+    "dbSubnetPrefix": "10.255.0.0/24",
     "feNSGName": "feNsg",
     "dbNSGName": "dbNsg",
     "sqlSrvDBName": "[concat(parameters('envPrefixName'), 'sqlSrv14')]",
