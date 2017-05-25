@@ -183,7 +183,7 @@
   },
   "variables": {
     "apiVersion": "2015-06-15",
-    "storageName": "[concat(parameters('envPrefixName'), 'stg', uniqueString(resourceGroup().id))]",
+    "storageName": "[concat(parameters('envPrefixName'), uniqueString(resourceGroup().id))]",
     "vhdContainer": "vhds",
     "virtualNetworkName": "[concat(parameters('envPrefixName'), 'VNET')]",
     "addressPrefix": "10.255.0.0/16",
@@ -626,7 +626,7 @@
       "name": "UpdateVNetDNS",
       "apiVersion": "2016-02-01",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', 'VNet')]",
+        
         //"[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
         "Microsoft.Compute/virtualMachines/adVM/extensions/CreateADForest"
       ],
