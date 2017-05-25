@@ -302,7 +302,7 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "1433",
-              "sourceAddressPrefix": "10.0.0.0/24",
+              "sourceAddressPrefix": "10.255.1.0/24",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 100,
@@ -323,30 +323,30 @@
               "direction": "Inbound"
             }
           },
+          //{
+          //  "name": "Block_FE",
+          //  "properties": {
+          //    "description": "Block App Subnet",
+          //    "protocol": "*",
+          //    "sourcePortRange": "*",
+          //    "destinationPortRange": "*",
+          //    "sourceAddressPrefix": "10.0.0.0/16",
+          //    "destinationAddressPrefix": "*",
+          //    "access": "Deny",
+          //    "priority": 121,
+          //    "direction": "Inbound"
+          //  }
+          //},
           {
-            "name": "Block_FE",
+            "name": "Allow_Internet",
             "properties": {
-              "description": "Block App Subnet",
-              "protocol": "*",
-              "sourcePortRange": "*",
-              "destinationPortRange": "*",
-              "sourceAddressPrefix": "10.0.0.0/24",
-              "destinationAddressPrefix": "*",
-              "access": "Deny",
-              "priority": 121,
-              "direction": "Inbound"
-            }
-          },
-          {
-            "name": "Block_Internet",
-            "properties": {
-              "description": "Block Internet",
+              "description": "Allow Internet",
               "protocol": "*",
               "sourcePortRange": "*",
               "destinationPortRange": "*",
               "sourceAddressPrefix": "*",
               "destinationAddressPrefix": "Internet",
-              "access": "Deny",
+              "access": "Allow",
               "priority": 200,
               "direction": "Outbound"
             }
@@ -644,11 +644,23 @@
           "virtualNetworkAddressRange": {
             "value": "[variables('addressPrefix')]"
           },
-          "subnetName": {
+          "dbsubnetName": {
             "value": "DBSubnetName"
           },
-          "subnetRange": {
+          "dbsubnetRange": {
             "value": "[variables('dbSubnetPrefix')]"
+          },
+          "fesubnetName": {
+            "value": "FESubnetName"
+          },
+          "fesubnetRange": {
+            "value": "[variables('feSubnetPrefix')]"
+          },
+          "dbNSGName": {
+            "value": "[variables('dbNSGName')]"
+          },
+          "feNSGName": {
+            "value": "[variables('feNSGName')]"
           },
           "DNSServerAddress": {
             "value": [ "[variables('adNicIPAddress')]" ]

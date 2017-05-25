@@ -15,19 +15,48 @@
       },
       "defaultValue": "10.255.0.0/16"
     },
-    "subnetName": {
+    "dbsubnetName": {
       "type": "string",
       "metadata": {
-        "description": "The name of the subnet created in the new VNET"
+        "description": "The name of the db subnet created in the new VNET"
       }
     },
-    "subnetRange": {
+    "dbsubnetRange": {
       "type": "string",
       "metadata": {
-        "description": "The address range of the subnet created in the new VNET"
+        "description": "The address range of the db subnet created in the new VNET"
       },
       "defaultValue": "10.255.0.0/24"
     },
+    "fesubnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the fe subnet created in the new VNET"
+      }
+    },
+    "fesubnetRange": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the fe subnet created in the new VNET"
+      },
+      "defaultValue": "10.255.1.0/24"
+    },
+
+    "dbNSGName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of NSG for DB"
+      },
+      "defaultValue": "dbNsg"
+    },
+    "feNSGName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of NSG for FE"
+      },
+      "defaultValue": "feNsg"
+    },
+
     "DNSServerAddress": {
       "type": "array",
       "metadata": {
@@ -48,18 +77,28 @@
           ]
         },
         "dhcpOptions": {
-          "dnsServers": 
-            "[parameters('DNSServerAddress')]"
-          
-          
+          "dnsServers": "[parameters('DNSServerAddress')]"
 
-          
+
+
         },
         "subnets": [
           {
-            "name": "[parameters('subnetName')]",
+            "name": "FESubnetName",
             "properties": {
-              "addressPrefix": "[parameters('subnetRange')]"
+              "addressPrefix": "[parameters('fesubnetRange')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('feNSGName'))]"
+              }
+            }
+          },
+          {
+            "name": "DBSubnetName",
+            "properties": {
+              "addressPrefix": "[parameters('dbsubnetRange')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('dbNSGName'))]"
+              }
             }
           }
         ]
