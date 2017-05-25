@@ -1,0 +1,383 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "The admin username of the domain controller (which also ends up being your domain admin)"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The password of the domain admin"
+      }
+    },
+    "domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "The FQDN of the Active Directory Domain to be created"
+      }
+    },
+    "dnsPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "The DNS prefix for the public IP address used by the Load Balancer"
+      }
+    },
+    "windowsserver": {
+      "type": "string",
+      "metadata": {
+        "description": "The version of Windows Server to use"
+      },
+      "defaultValue": "2016-Datacenter",
+      "allowedValues": [
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "2016-Datacenter"
+      ]
+    },
+    "vmsize": {
+      "type": "string",
+      "metadata": {
+        "description": "The size of VM to use"
+      },
+      "defaultValue": "Standard_A2_v2",
+      "allowedValues": [
+        "Standard_A0",
+        "Standard_A1_v2",
+        "Standard_A2_v2",
+        "Standard_A2m_v2",
+        "Standard_A4_v2",
+        "Standard_A4m_v2",
+        "Standard_A8_v2",
+        "Standard_A8m_v2",
+        "Standard_D1_v2",
+        "Standard_D11_v2",
+        "Standard_D12_v2",
+        "Standard_D13_v2",
+        "Standard_D14_v2",
+        "Standard_D15_v2",
+        "Standard_D2_v2",
+        "Standard_D3_v2",
+        "Standard_D4_v2",
+        "Standard_D5_v2"
+      ]
+    }
+
+
+    },
+  "variables": {
+    "virtualNetworkName": "adVNET",
+    "virtualNetworkAddressRange": "10.255.0.0/16",
+    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'adsa')]",
+    "adLBFE": "LBFE",
+    "adLBBE": "LBBE",
+    "adRDPNAT": "adRDP",
+    "adNicName": "adNic",
+    "adNicIPAddress": "10.255.0.4",
+    "adVMName": "adVM",
+    "adSubnetName": "adSubnet",
+    "adSubnetAddressPrefix": "10.255.0.0/24",
+    "publicIPAddressName": "adPublicIP",
+    "adAvailabilitySetName": "adAvailabilitySet",
+    "adLBName": "adLoadBalancer",
+    "AADConnectSource": "https://download.microsoft.com/download/B/0/0/B00291D0-5A83-4DE7-86F5-980BC00DE05A/AzureADConnect.msi",
+    "AADConnectTargetPath": "C:\\AzureADConnect.msi",
+
+    "NewVMDomainJoinTemplateFolder": "nestedtemplates",
+    "NewVMDomainJoinTemplateFileName": "new-vm-join-domain.json",
+
+    "CreateADForestDSCFolder": "DSC",
+    "CreateADForestDSCFileName": "CreateADPDC.zip",
+
+    "GetADConnectDSCFolder": "DSC",
+    "GetADConnectDSCFileName": "GetADConnect.ps1",
+
+    "CreateVNetTemplateFolder": "nestedtemplates",
+    "CreateVNetTemplateFileName": "vnet.json",
+
+    "UpdateVNetTemplateFolder": "nestedtemplates",
+    "UpdateVNetTemplateFileName": "vnet-with-dns-server.json",
+
+    "VPNS2STemplateFolder": "nestedtemplates",
+    "VPNS2STemplateFileName": "vpn-s2s-deploy.json",
+
+    "_artifactsLocation": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('publicIPAddressName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsPrefix')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[variables('adAvailabilitySetName')]",
+      "apiVersion": "2016-04-30-preview",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "managed": "true",
+        "platformUpdateDomainCount": 5,
+        "platformFaultDomainCount": 2
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "name": "VNet",
+      "apiVersion": "2016-02-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('_artifactsLocation'), '/', variables('CreateVNetTemplateFolder'), '/', variables('CreateVNetTemplateFileName'))]",
+          // "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/nestedtemplates/vnet.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "virtualNetworkName": {
+            "value": "[variables('virtualNetworkName')]"
+          },
+          "virtualNetworkAddressRange": {
+            "value": "[variables('virtualNetworkAddressRange')]"
+          },
+          "subnetName": {
+            "value": "[variables('adSubnetName')]"
+          },
+          "subnetRange": {
+            "value": "[variables('adSubnetAddressPrefix')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/loadBalancers",
+      "name": "[variables('adLBName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "[variables('adLBFE')]",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "[variables('adLBBE')]"
+          }
+        ],
+        "inboundNatRules": [
+          {
+            "name": "[variables('adRDPNAT')]",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[resourceId('Microsoft.Network/loadBalancers/frontendIPConfigurations', variables('adLBName'), variables('adLBFE'))]"
+              },
+              "protocol": "tcp",
+              "frontendPort": 3389,
+              "backendPort": 3389,
+              "enableFloatingIP": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('adNicName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/VNet",
+        "[resourceId('Microsoft.Network/loadBalancers', variables('adLBName'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[variables('adNicIPAddress')]",
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('adSubnetName'))]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', variables('adLBName'), variables('adLBBE'))]"
+                }
+              ],
+              "loadBalancerInboundNatRules": [
+                {
+                  "id": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', variables('adLBName'), variables('adRDPNAT'))]"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2016-04-30-preview",
+      "type": "Microsoft.Compute/disks",
+      "name": "[concat(variables('adVMName'), '-data-disk')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "creationData": {
+          "createOption": "empty"
+        },
+        "accountType": "Standard_LRS",
+        "diskSizeGB": "1023"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[variables('adVMName')]",
+      "apiVersion": "2016-04-30-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/disks', concat(variables('adVMName'), '-data-disk'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('adNicName'))]",
+        "[resourceId('Microsoft.Compute/availabilitySets', variables('adAvailabilitySetName'))]",
+        "[resourceId('Microsoft.Network/loadBalancers', variables('adLBName'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmsize')]"
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('adAvailabilitySetName'))]"
+        },
+        "osProfile": {
+          "computerName": "[variables('adVMName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "[parameters('windowsserver')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[concat(variables('adVMName'), '-osdisk')]",
+            "createOption": "FromImage",
+            "diskSizeGB": "128"
+          },
+          "dataDisks": [
+            {
+              "name": "[concat(variables('adVMName'), '-data-disk')]",
+              "caching": "ReadOnly",
+              "lun": 0,
+              "createOption": "Attach",
+              "managedDisk": {
+                "id": "[resourceId('Microsoft.Compute/disks', concat(variables('adVMName'), '-data-disk'))]"
+              }
+            }
+          ]
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('adNicName'))]"
+            }
+          ]
+        }
+      },
+      "resources": [
+        {
+          "type": "extensions",
+          "name": "CreateADForest",
+          "apiVersion": "2016-03-30",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.22",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "wmfVersion": "latest",
+              "configuration": {
+                "url": "[concat(variables('_artifactsLocation'), '/', variables('CreateADForestDSCFolder'), '/', variables('CreateADForestDSCFileName'))]",
+                //"url": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/DSC/CreateADPDC.zip",
+                "script": "CreateADPDC.ps1",
+                "function": "CreateADPDC"
+              },
+              "configurationArguments": {
+                "DomainName": "[parameters('domainName')]"
+              },
+              "privacy": {
+                "datacollection": "enable"
+              },
+              "advancedOptions": {
+                "forcePullAndApply": false
+              }
+            },
+            "protectedSettings": {
+              "configurationArguments": {
+                "AdminCreds": {
+                  "UserName": "[parameters('adminUsername')]",
+                  "Password": "[parameters('adminPassword')]"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "name": "UpdateVNetDNS",
+      "apiVersion": "2016-02-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'VNet')]",
+        //"[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
+        "Microsoft.Compute/virtualMachines/adVM/extensions/CreateADForest"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('_artifactsLocation'), '/', variables('UpdateVNetTemplateFolder'), '/', variables('UpdateVNetTemplateFileName'))]",
+          // "uri": "https://raw.githubusercontent.com/ehhwerd/phase1-domain-controller-plus-workload-vm/master/option1/nestedtemplates/vnet-with-dns-server.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "virtualNetworkName": {
+            "value": "[variables('virtualNetworkName')]"
+          },
+          "virtualNetworkAddressRange": {
+            "value": "[variables('virtualNetworkAddressRange')]"
+          },
+          "subnetName": {
+            "value": "[variables('adSubnetName')]"
+          },
+          "subnetRange": {
+            "value": "[variables('adSubnetAddressPrefix')]"
+          },
+          "DNSServerAddress": {
+            "value": [ "[variables('adNicIPAddress')]" ]
+
+          }
+        }
+      }
+    }
+  ]
+}
