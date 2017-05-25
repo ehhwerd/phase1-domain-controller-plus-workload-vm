@@ -689,7 +689,8 @@
       "location": "[resourceGroup().location]",
       "apiVersion": "[variables('apiVersion')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('adNicName'))]"
       ],
       "tags": {
         "displayName": "SQLSrvDBNic"
@@ -917,7 +918,8 @@
       },
       "dependsOn": [
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
-        "[concat('Microsoft.Network/loadBalancers/', variables('webLbName'))]"
+        "[concat('Microsoft.Network/loadBalancers/', variables('webLbName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('adNicName'))]"
       ],
       "tags": {
         "displayName": "WebSrvNic"
