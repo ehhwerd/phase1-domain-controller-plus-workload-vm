@@ -5,7 +5,7 @@
     "adminUsername": {
       "type": "string",
       "metadata": {
-        "description": "The name of the Administrator of the new VM and Domain"
+        "description": "The admin username of the domain controller (which also ends up being your domain admin)"
       }
 
     },
@@ -24,7 +24,7 @@
     "dnsPrefix": {
       "type": "string",
       "metadata": {
-        "description": "The DNS prefix for the public IP address used by the Load Balancer"
+        "description": "The UNIQUE DNS prefix for the public IP address used by the Load Balancer"
       }
     },
     "numberOfRdshInstances": {
@@ -58,7 +58,17 @@
         "Standard_D2_v2",
         "Standard_D3_v2",
         "Standard_D4_v2",
-        "Standard_D5_v2"
+        "Standard_D5_v2",
+        "Standard_DS1_v2",
+        "Standard_DS11_v2",
+        "Standard_DS12_v2",
+        "Standard_DS13_v2",
+        "Standard_DS14_v2",
+        "Standard_DS15_v2",
+        "Standard_DS2_v2",
+        "Standard_DS3_v2",
+        "Standard_DS4_v2",
+        "Standard_DS5_v2"
       ]
     }
 

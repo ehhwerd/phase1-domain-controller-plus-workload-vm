@@ -23,7 +23,7 @@
     "dnsPrefix": {
       "type": "string",
       "metadata": {
-        "description": "The DNS prefix for the public IP address used by the Load Balancer"
+        "description": "The UNIQUE DNS prefix for the public IP address used by the Load Balancer"
       }
     },
     "windowsserver": {
@@ -62,7 +62,17 @@
         "Standard_D2_v2",
         "Standard_D3_v2",
         "Standard_D4_v2",
-        "Standard_D5_v2"
+        "Standard_D5_v2",
+        "Standard_DS1_v2",
+        "Standard_DS11_v2",
+        "Standard_DS12_v2",
+        "Standard_DS13_v2",
+        "Standard_DS14_v2",
+        "Standard_DS15_v2",
+        "Standard_DS2_v2",
+        "Standard_DS3_v2",
+        "Standard_DS4_v2",
+        "Standard_DS5_v2"
       ]
     },
 
@@ -99,7 +109,17 @@
         "Standard_D2_v2",
         "Standard_D3_v2",
         "Standard_D4_v2",
-        "Standard_D5_v2"
+        "Standard_D5_v2",
+        "Standard_DS1_v2",
+        "Standard_DS11_v2",
+        "Standard_DS12_v2",
+        "Standard_DS13_v2",
+        "Standard_DS14_v2",
+        "Standard_DS15_v2",
+        "Standard_DS2_v2",
+        "Standard_DS3_v2",
+        "Standard_DS4_v2",
+        "Standard_DS5_v2"
       ]
     }
   },
