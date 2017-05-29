@@ -113,19 +113,19 @@
       },
       "defaultValue": "Standard_DS3_v2"
     },
-    "storageAccountType": {
-      "type": "string",
-      "allowedValues": [
-        "Standard_LRS",
-        "Standard_GRS",
-        "Standard_RAGRS",
-        "Premium_LRS"
-      ],
-      "metadata": {
-        "description": "The type of the Storage Account created"
-      },
-      "defaultValue": "Premium_LRS"
-    },
+    //"storageAccountType": {
+    //  "type": "string",
+    //  "allowedValues": [
+    //    "Standard_LRS",
+    //    "Standard_GRS",
+    //    "Standard_RAGRS",
+    //    "Premium_LRS"
+    //  ],
+    //  "metadata": {
+    //    "description": "The type of the Storage Account created"
+    //  },
+    //  "defaultValue": "Premium_LRS"
+    //},
 
     "advmsize": {
       "type": "string",
@@ -629,7 +629,7 @@
       "name": "UpdateVNetDNS",
       "apiVersion": "2016-02-01",
       "dependsOn": [
-        
+
         //"[resourceId('Microsoft.Compute/virtualMachines', variables('adVMName'))]"
         "Microsoft.Compute/virtualMachines/adVM/extensions/CreateADForest"
       ],
@@ -682,7 +682,7 @@
         "displayName": "StorageForEnv"
       },
       "properties": {
-        "accountType": "[parameters('storageAccountType')]"
+        "accountType": "Premium_LRS"
       }
     },
     {
@@ -1016,7 +1016,7 @@
           ]
         }
       }
-      
+
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",

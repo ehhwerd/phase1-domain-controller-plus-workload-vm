@@ -51,6 +51,20 @@
       ],
       "defaultValue": 1
     },
+
+    //"storageAccountType": {
+    //  "type": "string",
+    //  "allowedValues": [
+    //    "Standard_LRS",
+    //    "Standard_GRS",
+    //    "Standard_RAGRS",
+    //    "Premium_LRS"
+    //  ],
+    //  "metadata": {
+    //    "description": "The type of the Storage Account created"
+    //  },
+    //  "defaultValue": "Premium_LRS"
+    //},
     "sqlVMSize": {
       "type": "string",
       "allowedValues": [
@@ -67,19 +81,6 @@
         "description": "The size of the SQL VM Created"
       },
       "defaultValue": "Standard_DS3"
-    },
-    "storageAccountType": {
-      "type": "string",
-      "allowedValues": [
-        "Standard_LRS",
-        "Standard_GRS",
-        "Standard_RAGRS",
-        "Premium_LRS"
-      ],
-      "metadata": {
-        "description": "The type of the Storage Account created"
-      },
-      "defaultValue": "Premium_LRS"
     }
   },
   "variables": {
@@ -280,12 +281,12 @@
       "type": "Microsoft.Storage/storageAccounts",
       "location": "[resourceGroup().location]",
       "apiVersion": "[variables('apiVersion')]",
-      "dependsOn": [ ],
+      "dependsOn": [],
       "tags": {
         "displayName": "StorageForEnv"
       },
       "properties": {
-        "accountType": "[parameters('storageAccountType')]"
+        "accountType": "Premium_LRS"
       }
     },
     {
@@ -612,7 +613,7 @@
           "Properties": {
           }
         },
-        "protectedSettings": { }
+        "protectedSettings": {}
       }
     }
   ]
