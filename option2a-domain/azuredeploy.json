@@ -5,10 +5,10 @@
     "envPrefixName": {
       "type": "string",
       "metadata": {
-        "description": "Unique Prefix for the environment (2-15 characters)asd"
+        "description": "Unique Prefix for the environment (2-5 characters)asd"
       },
       "minLength": 2,
-      "maxLength": 15
+      "maxLength": 5
     },
     "domainName": {
       "type": "string",
