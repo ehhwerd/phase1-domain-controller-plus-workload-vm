@@ -40,6 +40,7 @@
     <None Include="nestedtemplates\vnet-with-dns-server.json" />
     <None Include="nestedtemplates\vnet.json" />
     <None Include="nestedtemplates\vpn-s2s-deploy.json" />
+    <None Include="README.md" />
     <None Include="scripts\WebServerConfig.ps1.zip" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
