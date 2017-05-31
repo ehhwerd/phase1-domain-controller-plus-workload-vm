@@ -5,7 +5,7 @@
     "envPrefixName": {
       "type": "string",
       "metadata": {
-        "description": "Unique Prefix for the environment (2-5 characters)asd"
+        "description": "Unique Prefix for this environment (2-5 characters) *lowercase"
       },
       "minLength": 2,
       "maxLength": 5
@@ -13,19 +13,19 @@
     "domainName": {
       "type": "string",
       "metadata": {
-        "description": "The FQDN of the Active Directory Domain to be created"
+        "description": "(e.g. mynewdomain.com) The FQDN of the Active Directory Domain to be created. *lowercase"
       }
     },
     "username": {
       "type": "string",
       "metadata": {
-        "description": "Domain Admin Username"
+        "description": "The admin username of the domain controller (which also ends up being your domain admin)"
       }
     },
     "password": {
       "type": "securestring",
       "metadata": {
-        "description": "Domain Admin Password"
+        "description": "The password of the domain admin"
       }
     },
     "webSrvVMSize": {

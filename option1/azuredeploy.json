@@ -17,13 +17,13 @@
     "domainName": {
       "type": "string",
       "metadata": {
-        "description": "The FQDN of the Active Directory Domain to be created"
+        "description": "(e.g. mynewdomain.com) The FQDN of the Active Directory Domain to be created. *lowercase"
       }
     },
     "dnsPrefix": {
       "type": "string",
       "metadata": {
-        "description": "The DNS prefix for the public IP address used by the Load Balancer"
+        "description": "(e.g. edwardsnewDC) The UNIQUE DNS name for your Domain Controller. [Will eventually be used as edwardsnewDC.australiaeast.cloudapp.azure.com] *lowercase"
       }
     },
     "windowsserver": {
@@ -69,8 +69,8 @@
     "VM2Name": {
       "type": "string",
       "metadata": {
-        "description": "The name of the second VM being deployed that will be joined to the domain"
-        }
+        "description": "e.g. 'myuniqueazurevm2' The UNIQUE name for VM2 that will be used as part of a FQDN. [Will eventually be used as myuniqueazurevm2.australiaeast.cloudapp.azure.com] *lowercase"
+      }
       },
     "vm2size": {
       "type": "string",

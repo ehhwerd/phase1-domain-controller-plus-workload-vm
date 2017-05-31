@@ -18,13 +18,13 @@
     "domainName": {
       "type": "string",
       "metadata": {
-        "description": "The FQDN of the AD Domain created "
+        "description": "(e.g. mynewdomain.com) The FQDN of the Active Directory Domain to be created. *lowercase"
       }
     },
     "dnsPrefix": {
       "type": "string",
       "metadata": {
-        "description": "The UNIQUE DNS prefix for the public IP address used by the Load Balancer"
+        "description": "(e.g. edwardsnewDC) The UNIQUE DNS name for your Domain Controller. [Will eventually be used as edwardsnewDC.australiaeast.cloudapp.azure.com] *lowercase"
       }
     },
     "numberOfRdshInstances": {
